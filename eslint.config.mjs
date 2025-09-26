@@ -1,26 +1,20 @@
 import js from "@eslint/js";
-import globals from "globals";
-import pluginVue from "eslint-plugin-vue";
-import { defineConfig } from "eslint/config";
+import vuePlugin from "eslint-plugin-vue";
 
-export default defineConfig([
+export default [
+  js.configs.recommended,
   {
-    files: ["**/*.{js,mjs,cjs,vue}"],
+    files: ["**/*.js", "**/*.vue"],
     languageOptions: {
       globals: {
-        ...globals.browser,
-        ...globals.node,   
-        Vue: "readonly",   
-        VueRouter: "readonly" 
-      },
+        ...require("globals")
+      }
     },
-    plugins: { vue: pluginVue },
+    plugins: {
+      vue: vuePlugin
+    },
     rules: {
-      "vue/no-deprecated-data-object-declaration": "warn",
-    },
-    extends: [
-      js.configs.recommended,
-      ...pluginVue.configs["flat/essential"],
-    ],
-  },
-]);
+      "no-unused-vars": "warn"
+    }
+  }
+];

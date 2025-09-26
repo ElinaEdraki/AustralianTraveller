@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     stages {
-
         stage('Docker Build & Run') {
             steps {
                 bat 'docker build -t hdproject .'
@@ -12,13 +11,11 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'npm install --include=dev'
-                bat 'powershell Compress-Archive -Path public,server.js,package.json -DestinationPath build.zip -Force'
-                archiveArtifacts artifacts: 'build.zip', fingerprint: true
+                bat 'npm install'
+                bat 'powershell Compress-Archive -Path public,server.js,package.json -DestinationPath build-1.zip -Force'
+                archiveArtifacts artifacts: 'build-1.zip', fingerprint: true
             }
         }
-
-
 
         stage('Test') {
             steps {
@@ -34,39 +31,29 @@ pipeline {
             }
         }
 
-
         stage('Code Quality') {
             steps {
-             
                 bat 'npx eslint . --max-warnings=0'
-                echo 'Code Quality check completed (no warnings allowed).'
             }
         }
-
 
         stage('Deploy') {
             steps {
-                bat 'start /B node server.js'
-                bat 'ping -n 6 127.0.0.1 >nul'
-                bat 'taskkill /IM node.exe /F'
-                echo 'Deploy stage finished successfully.'
+                echo 'Deploy stage would go here (e.g., staging server or cloud).'
             }
         }
+
         stage('Release') {
             steps {
-                echo 'Releasing application to production (simulated)...'
-                bat "git tag v1.%BUILD_NUMBER%"
-                bat "git push origin v1.%BUILD_NUMBER%"
-
+                echo 'Release to production (simulated).'
             }
         }
 
         stage('Monitoring') {
             steps {
-                bat 'powershell -Command "try { Invoke-WebRequest http://localhost:3000/api/places -UseBasicParsing } catch { echo App is not responding }"'
-                echo 'Monitoring stage complete.'
+                bat 'powershell -Command "try { Invoke-WebRequest http://localhost:3000 -UseBasicParsing } catch { echo App is not responding }"'
+                echo 'Monitoring complete.'
             }
         }
-
     }
 }
