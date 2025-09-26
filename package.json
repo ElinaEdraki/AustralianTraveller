@@ -5,7 +5,7 @@
   "main": "JSfile.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "",
