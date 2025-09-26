@@ -16,10 +16,12 @@ app.get('/api/places', (req, res) => {
   res.json(places);
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+// ✅ Start the server only if not running in test mode
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
 
+// ✅ Export app so supertest can use it in tests
 module.exports = app;
-
