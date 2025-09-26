@@ -12,12 +12,12 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'npm install'
-                bat "powershell Compress-Archive -Path public,server.js,package.json -DestinationPath build-%BUILD_NUMBER%.zip -Force"
-                archiveArtifacts artifacts: 'build-*.zip', fingerprint: true
-
+                bat 'npm install --include=dev'
+                bat 'powershell Compress-Archive -Path public,server.js,package.json -DestinationPath build.zip -Force'
+                archiveArtifacts artifacts: 'build.zip', fingerprint: true
             }
         }
+
 
 
         stage('Test') {
