@@ -61,7 +61,7 @@
 /* Top Bar Styling */
 .topBar {
     display: flex;
-    justify-content: space-between; /* فاصله بین لوگو و منو */
+    justify-content: space-between; 
     align-items: center;
     background-color: #ffe2ea; /* Light pink background */
     padding: 10px 20px;
@@ -74,7 +74,7 @@
     font-weight: bold;
     color: #49212d; /* Dark brown text color */
     font-family: 'Inconsolata', sans-serif;
-    text-align: left; /* تراز لوگو به سمت چپ */
+    text-align: left;
 }
 .hamburger-menu {
     display: none; /* Hidden by default for larger screens */

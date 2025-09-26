@@ -9,9 +9,9 @@ export default defineConfig([
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node,   // اضافه برای server.js
-        Vue: "readonly",   // برای Vue global
-        VueRouter: "readonly" // برای Vue Router global
+        ...globals.node,   
+        Vue: "readonly",   
+        VueRouter: "readonly" 
       },
     },
     plugins: { vue: pluginVue },

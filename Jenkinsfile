@@ -2,11 +2,20 @@ pipeline {
     agent any
 
     stages {
+
+        stage('Docker Build & Run') {
+            steps {
+                bat 'docker build -t hdproject .'
+                bat 'docker run -d -p 3000:3000 --name hdproject-container hdproject'
+            }
+        }
+
         stage('Build') {
             steps {
                 bat 'npm install'
-                bat 'powershell Compress-Archive -Path public,server.js,package.json -DestinationPath build.zip -Force'
-                archiveArtifacts artifacts: 'build.zip', fingerprint: true
+                bat "powershell Compress-Archive -Path public,server.js,package.json -DestinationPath build-%BUILD_NUMBER%.zip -Force"
+                archiveArtifacts artifacts: 'build-*.zip', fingerprint: true
+
             }
         }
 
@@ -19,16 +28,21 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                bat 'npm audit || exit 0'
+                bat 'npm audit --json > audit.json'
+                echo 'Security scan completed. Please review audit.json for High/Critical issues.'
+                archiveArtifacts artifacts: 'audit.json', fingerprint: true
             }
         }
 
+
         stage('Code Quality') {
             steps {
-                bat 'npx eslint . || exit 0'
-                echo 'Code Quality check completed (warnings allowed).'
+             
+                bat 'npx eslint . --max-warnings=0'
+                echo 'Code Quality check completed (no warnings allowed).'
             }
         }
+
 
         stage('Deploy') {
             steps {
@@ -41,13 +55,15 @@ pipeline {
         stage('Release') {
             steps {
                 echo 'Releasing application to production (simulated)...'
-                // در پروژه واقعی: deploy به Docker Hub یا AWS
+                bat "git tag v1.%BUILD_NUMBER%"
+                bat "git push origin v1.%BUILD_NUMBER%"
+
             }
         }
 
         stage('Monitoring') {
             steps {
-                bat 'powershell -Command "try { Invoke-WebRequest http://localhost:3000 -UseBasicParsing } catch { echo App is not responding }"'
+                bat 'powershell -Command "try { Invoke-WebRequest http://localhost:3000/api/places -UseBasicParsing } catch { echo App is not responding }"'
                 echo 'Monitoring stage complete.'
             }
         }
