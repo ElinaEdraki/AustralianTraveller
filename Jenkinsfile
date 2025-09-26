@@ -5,9 +5,7 @@ pipeline {
         stage('Docker Build & Run') {
             steps {
                 bat 'docker build -t hdproject .'
-                // این خط باعث میشه کانتینر قبلی (اگر وجود داشت) حذف بشه
                 bat 'docker rm -f hdproject-container || echo "No old container"'
-                // اجرای کانتینر جدید
                 bat 'docker run -d -p 3000:3000 --name hdproject-container hdproject'
             }
         }
