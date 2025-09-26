@@ -1,0 +1,19 @@
+{
+  "name": "hdproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "JSfile.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.36.0"
+  }
+}

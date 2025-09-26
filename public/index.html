@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Australian Traveller</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="cssfile.css">
+
+  <!-- Vue.js Core Library -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <!-- Include Vue Router for navigation -->
+  <script src="https://unpkg.com/vue-router@3"></script>
+</head>
+<body>
+  <!-- Root Vue instance -->
+  <div id="app" :style="{ backgroundColor: appBackground }">
+    <!-- Navbar Section -->
+    <header class="topBar">
+        <!-- Logo -->
+        <div class="logo">Australian Traveller</div>
+
+        <!-- Hamburger menu for smaller screens -->
+        <div class="hamburger-menu" @click="toggleMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <!-- Navigation Menu -->
+        <!-- Links are dynamically routed using Vue Router -->
+        <nav :class="{'active': isMenuOpen}">
+          <router-link to="/" class="topBarItem">Home</router-link>
+          <router-link to="/YourList" class="topBarItem">Your List</router-link>
+          <router-link to="/Planner" class="topBarItem">Plan A Day</router-link>
+          <router-link to="/Settings" class="topBarItem">Settings</router-link>
+          <router-link to="/login" class="loginBox">Login</router-link>
+        </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <div id="content">
+      <!-- KeepAlive caches inactive components to improve performance -->
+      <keep-alive>
+        <!-- Transition wrapper for smooth component changes -->
+        <transition name="fade" mode="out-in">
+          <!-- Dynamic routing for different views -->
+          <router-view 
+            @add-to-favorites="addToFavorites" 
+            @remove-place="removeFromFavorites" 
+            :places="favoritePlaces">
+          </router-view>
+        </transition>
+      </keep-alive>
+    </div>
+  </div>
+
+  <!-- Custom JavaScript file containing Vue app logic -->
+  <script src="JSfile.js"></script>
+</body>
+</html>
