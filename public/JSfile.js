@@ -483,14 +483,7 @@ var PlaceDetails = {
   },
 };
 
-const FooterComponent = {
-      template: `
-        <footer class="footer">
-          <p>&copy; 2025 Australian Traveller. All Rights Reserved.</p>
-          <p>Contact us: info@australiantraveller.com</p>
-        </footer>
-      `,
-    };
+
 
 const YourList = {
   name: "YourList",
