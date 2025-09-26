@@ -1,5 +1,7 @@
+// eslint.config.mjs
 import js from "@eslint/js";
-import vuePlugin from "eslint-plugin-vue";
+import globals from "globals";
+import pluginVue from "eslint-plugin-vue";
 
 export default [
   js.configs.recommended,
@@ -7,14 +9,16 @@ export default [
     files: ["**/*.js", "**/*.vue"],
     languageOptions: {
       globals: {
-        ...require("globals")
-      }
+        ...globals.node,
+        ...globals.browser,
+      },
     },
     plugins: {
-      vue: vuePlugin
+      vue: pluginVue,
     },
     rules: {
-      "no-unused-vars": "warn"
-    }
-  }
+      "no-unused-vars": "warn",
+      "no-console": "off",
+    },
+  },
 ];
